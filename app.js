@@ -1,48 +1,38 @@
-const path = require('path')
+//const path = require('path')
 const express = require('express')
 const exphbs  = require('express-handlebars')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+const fileUpload = require('express-fileupload')
 const app = express()
 const port = 3000
 const hostName = '127.0.0.1'
 
-await mongoose.connect('mongodb+srv://mgelgi17:1234567899@cluster0.ackgl.mongodb.net/nodeblog_db?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://mgelgi17:1234567899@cluster0.ackgl.mongodb.net/nodeblog_db?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
   useCreateIndex: true
 })
 
-
+app.use(fileUpload())
 
 app.use(express.static('public'))
 
 app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
-app.get('/', (req,res) => {
-    res.render('site/index')
-})
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+ 
+// parse application/json
+app.use(bodyParser.json())
 
-app.get('/about', (req,res) => {
-    res.render('site/about')
-})
+const main = require('./routes/main')
+app.use('/',main)
 
-app.get('/blog', (req,res) => {
-    res.render('site/blog')
-})
-
-app.get('/contact', (req,res) => {
-    res.render('site/contact')
-})
-
-app.get('/login', (req,res) => {
-    res.render('site/login')
-})
-
-app.get('/register', (req,res) => {
-    res.render('site/register')
-})
+const posts = require('./routes/posts')
+app.use('/posts',posts)
 
 app.listen(port,hostName, () => {
     console.log(`Server çalışıyor, http://${hostName}:${port}/`)
