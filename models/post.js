@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
 const PostSchema = new mongoose.Schema({
-    title:{type: String, require:true},
-    content:{type: String, require:true},
-    post_image:{type: String, require:true},
+    title:{type: String, required:true},
+    content:{type: String, required:true},
+    post_image:{type: String, required:true},
     date:{type: Date, default:Date.now}
 })
 

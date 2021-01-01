@@ -28,6 +28,14 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+
+const myMiddleware = (req,res,next) =>{
+  console.log('benim adım metehan')
+  next()
+}
+
+app.use('/',myMiddleware)
+
 const main = require('./routes/main')
 app.use('/',main)
 
