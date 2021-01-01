@@ -4,6 +4,9 @@ const exphbs  = require('express-handlebars')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload')
+const generateDate = require('./helpers/generateDate').generateDate
+
+
 const app = express()
 const port = 3000
 const hostName = '127.0.0.1'
@@ -19,7 +22,9 @@ app.use(fileUpload())
 
 app.use(express.static('public'))
 
-app.engine('handlebars', exphbs());
+
+
+app.engine('handlebars', exphbs({helpers: {generateDate:generateDate}}));
 app.set('view engine', 'handlebars');
 
 // parse application/x-www-form-urlencoded
