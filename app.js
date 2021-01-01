@@ -35,7 +35,7 @@ app.use(bodyParser.json())
 
 
 const myMiddleware = (req,res,next) =>{
-  console.log('benim adım metehan')
+  //console.log('benim adım metehan')
   next()
 }
 
