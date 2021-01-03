@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const Post = require('../models/post')
+const Category = require('../models/category')
+const User = require('../models/user')
 
 router.get('/', (req,res) => {
     //console.log(req.session)
@@ -13,8 +15,11 @@ router.get('/', (req,res) => {
 
 router.get('/blog', (req,res) => {
 
-    Post.find({}).sort({$natural:-1}).lean().then(posts => {
-        res.render('site/blog',{posts:posts})
+    Post.find({}).populate({path: 'author', model: User}).sort({$natural:-1}).lean().then(posts => {
+        Category.find({}).sort({$natural:-1}).lean().then(categories => {
+            res.render('site/blog',{posts:posts, categories:categories})
+        })
+        
     })
 
 })

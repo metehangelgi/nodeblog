@@ -2,20 +2,26 @@ const express = require('express')
 const router = express.Router()
 const Post = require('../models/post')
 const path = require('path')
+const Category = require('../models/category')
+const User = require('../models/user')
 
 
 router.get('/new', (req,res) => {
-    if (req.session.userId){
-        return res.render('site/addpost')
+    if (!req.session.userId){
+        return res.redirect('/users/login')
     }
-    res.redirect('/users/login')
+    Category.find({}).sort({$natural:-1}).lean().then(categories => {
+        res.render('site/addpost',{categories:categories})
+    })
+    
 })
 
 router.get('/:id', (req,res) => {
-    Post.findById(req.params.id).lean().then(post => {
-        res.render('site/post',{post:post})
+    Post.findById(req.params.id).populate({path: 'author', model: User}).lean().then(post => {
+        Category.find({}).sort({$natural:-1}).lean().then(categories => {
+            res.render('site/post',{post:post, categories:categories})
+        })
     })
-
 })
 
 router.post('/test', (req,res) => {
@@ -25,7 +31,8 @@ router.post('/test', (req,res) => {
 
     Post.create({
         ...req.body,
-        post_image:`/img/postimages/${post_image.name}`
+        post_image:`/img/postimages/${post_image.name}`,
+        author : req.session.userId
     }, )
 
     req.session.sessionFlash = {
