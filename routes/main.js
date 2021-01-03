@@ -7,13 +7,13 @@ router.get('/', (req,res) => {
     res.render('site/index')
 })
 
-router.get('/admin', (req,res) => {
+/* router.get('/admin', (req,res) => {
     res.render('admin/index')
-})
+}) */
 
 router.get('/blog', (req,res) => {
 
-    Post.find({}).lean().then(posts => {
+    Post.find({}).sort({$natural:-1}).lean().then(posts => {
         res.render('site/blog',{posts:posts})
     })
 

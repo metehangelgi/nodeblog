@@ -7,6 +7,7 @@ const fileUpload = require("express-fileupload");
 const generateDate = require("./helpers/generateDate").generateDate;
 const expressSession = require("express-session");
 const connectMongo = require("connect-mongo");
+const methodOverride = require('method-override');
 
 const app = express();
 const port = 3000;
@@ -41,8 +42,8 @@ app.use((req, res, next) => {
 });
 
 app.use(fileUpload());
-
 app.use(express.static("public"));
+app.use(methodOverride('_method'))
 
 app.engine("handlebars", exphbs({ helpers: { generateDate: generateDate } }));
 app.set("view engine", "handlebars");
