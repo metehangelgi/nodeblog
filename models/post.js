@@ -5,7 +5,7 @@ const PostSchema = new mongoose.Schema({
     author:{type: mongoose.Schema.Types.ObjectId,ref: 'users'},
     content:{type: String, required:true},
     post_image:{type: String, required:true},
-    date:{type: Date, default:Date.now},
+    date:{type: Date, default:new Date()},
     category: {type: mongoose.Schema.Types.ObjectId,ref: 'categories'}
 })
 

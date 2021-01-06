@@ -5,16 +5,25 @@ const Post = require('../../models/post')
 const path = require('path')
 
 router.get('/', (req,res) => {
+    if (!req.session.userId){
+        return res.redirect('../users/login')
+    }
     res.render('admin/index')
 })
 
 router.get('/categories', (req,res) => {
+    if (!req.session.userId){
+        return res.redirect('../users/login')
+    }
     Category.find({}).sort({$natural:-1}).lean().then(categories => {
         res.render('admin/categories', {categories:categories})
     })
 })
 
 router.post('/categories', (req,res) => {
+    if (!req.session.userId){
+        return res.redirect('../users/login')
+    }
     Category.create(req.body, (error, category) => {
         if(!error){
             res.redirect('categories')
@@ -30,6 +39,9 @@ router.delete('/categories/:id', (req,res) => {
 
 
 router.get('/posts', (req,res) => {
+    if (!req.session.userId){
+        return res.redirect('../users/login')
+    }
     Post.find({}).populate({path: 'category', model: Category}).sort({$natural:-1}).lean().then(posts => {
             res.render('admin/posts',{posts:posts})
         })
@@ -42,6 +54,9 @@ router.delete('/posts/:id', (req,res) => {
 })
 
 router.get('/posts/edit/:id', (req,res) => {
+    if (!req.session.userId){
+        return res.redirect('../users/login')
+    }
     Post.findOne({_id: req.params.id}).lean().then(post => {
         Category.find({}).lean().then(categories => {
             res.render('admin/editpost',{post:post,categories:categories})
@@ -56,7 +71,7 @@ router.put('/posts/:id', (req,res) => {
     Post.findByIdAndUpdate({_id: req.params.id}, {
         title : req.body.title,
         content : req.body.content,
-        date : req.body.date,
+        date : new Date(),
         category : req.body.category,
         post_image : `/img/postimages/${post_image.name}`
     }, () => {
