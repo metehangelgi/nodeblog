@@ -4,8 +4,7 @@ const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const fileUpload = require("express-fileupload");
-const {generateDate,limit,truncate} = require("./helpers/hbs");
-//const limit = require("./helpers/limit").limit  - sonra helper lazım olursa kullanırım
+const {generateDate,limit,truncate,paginate} = require("./helpers/hbs");
 //const truncate = require("./helpers/truncate").truncate - sonra helper lazım olursa kullanırım
 const expressSession = require("express-session");
 const connectMongo = require("connect-mongo");
@@ -48,7 +47,8 @@ const hbs = exphbs.create({
   helpers: {
     generateDate: generateDate,
     limit : limit,
-    truncate: truncate
+    truncate: truncate,
+    paginate:paginate
   }
 })
 
