@@ -12,9 +12,13 @@
 <section id="aboutus" class="md-padding">
     <div class="container">
         {{> admin-nav}}
-
         <div class="clearfix"></div>
         <div class="mb-5"></div>
+        <div class="container">
+            <a href="/admin/adminpanel/">Home</a>
+			<a>>{{kolt.name}}</a>
+        </div>
+        <div class="clearfix"></div>
         <div class="row">
             <div class="col-md-8">
                 <!-- SideBar -->
@@ -26,7 +30,7 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                <input class="form-control" name="name" type="text" placeholder="Category name *"
+                                <input class="form-control" name="name" type="text" placeholder="Category Name * "
                                     required="required" data-validation-required-message="Please enter category name.">
                                 <p class="help-block text-danger"></p>
                             </div>

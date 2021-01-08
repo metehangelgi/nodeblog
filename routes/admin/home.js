@@ -25,10 +25,14 @@ router.get('/adminpanel', (req,res) => {
     if (!req.session.userId){
         return res.redirect('../users/login')
     }
-    console.log(req.session.username)
-    Kolt.find({}).lean().then(kolts => {
-        res.render('admin/adminpanel', {kolts:kolts})
+    //bu kısmı redirect ile /adminpanel/:id buna bağlamak lazım 
+    
+    Kolt.findOne({name:"Home"}).lean().then(kolt => {
+        Kolt.find({}).lean().then(kolts => {
+            res.render('admin/adminpanel', {kolts:kolts, kolt:kolt}) 
+        })
     })
+    
 })
 
 router.get('/adminpanel/:id', (req,res) => {
@@ -37,7 +41,8 @@ router.get('/adminpanel/:id', (req,res) => {
     }
     Kolt.findById(req.params.id).lean().then(kolt => {
         Kolt.find({}).lean().then(kolts => {
-            res.render('admin/panel', {kolts:kolts, kolt:kolt})
+            //admin/panel kullanıyordu. şu anda panel çağırılmıyor hiç
+            res.render('admin/adminpanel', {kolts:kolts, kolt:kolt})
         })
     })
 })

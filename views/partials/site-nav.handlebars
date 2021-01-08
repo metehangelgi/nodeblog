@@ -2,6 +2,14 @@
 		<div class="container">
 			<a class="navbar-brand js-scroll-trigger" href="/">Metehan Gelgi</a>
 			<a class="navbar-brand js-scroll-trigger" href="#">Go Up</a>
+			<a id="date" class="navbar-brand js-scroll-trigger">new Date()</a>
+
+			<script>
+			var d = new Date();
+			var date=d.getHours()+":"+((d.getMinutes()<10)? "0"+d.getMinutes() : d.getMinutes() )+":"+d.getSeconds();
+			document.getElementById("date").innerHTML = date;
+			</script>
+
 			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
 				Menu
 				<i class="fas fa-bars"></i>
