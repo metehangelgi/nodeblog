@@ -1,0 +1,25 @@
+<aside id="aside" class="col-md-4">
+
+	<div class="widget">
+		<div class="widget-search">
+			<form action="/posts/search" method="GET">
+				<input class="search-input form-control" type="text" name="search" placeholder="Search">
+				<button class="search-btn" type="submit"><i class="fas fa-search"></i></button>
+			</form>
+		</div>
+	</div>
+	<!-- /Search -->
+
+
+	<!-- Category -->
+	<div class="widget">
+		<h3 class="mb-3">KOLT TUTORING CENTER</h3>
+		<div class="widget-category">
+			{{#each kolts}}
+			<a href="/admin/adminpanel/{{_id}}">{{name}}</a>
+			{{/each}}
+		</div>
+	</div>
+	<!-- /Category -->
+
+</aside>

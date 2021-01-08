@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Category = require('../../models/category')
 const Post = require('../../models/post')
+const Kolt = require('../../models/kolt')
 const path = require('path')
 
 router.get('/', (req,res) => {
@@ -20,6 +21,28 @@ router.get('/categories', (req,res) => {
     })
 })
 
+router.get('/adminpanel', (req,res) => {
+    if (!req.session.userId){
+        return res.redirect('../users/login')
+    }
+    console.log(req.session.username)
+    Kolt.find({}).lean().then(kolts => {
+        res.render('admin/adminpanel', {kolts:kolts})
+    })
+})
+
+router.get('/adminpanel/:id', (req,res) => {
+    if (!req.session.userId){
+        return res.redirect('../users/login')
+    }
+    Kolt.findById(req.params.id).lean().then(kolt => {
+        Kolt.find({}).lean().then(kolts => {
+            res.render('admin/panel', {kolts:kolts, kolt:kolt})
+        })
+    })
+})
+
+
 router.post('/categories', (req,res) => {
     if (!req.session.userId){
         return res.redirect('../users/login')
@@ -27,6 +50,17 @@ router.post('/categories', (req,res) => {
     Category.create(req.body, (error, category) => {
         if(!error){
             res.redirect('categories')
+        }
+    })
+})
+
+router.post('/adminpanel', (req,res) => {
+    if (!req.session.userId){
+        return res.redirect('../users/login')
+    }
+    Kolt.create(req.body, (error, kolt) => {
+        if(!error){
+            res.redirect('adminpanel')
         }
     })
 })

@@ -103,6 +103,9 @@ app.use("/users", users);
 const admin = require("./routes/admin/home");
 app.use("/admin", admin);
 
+const contact = require("./routes/contact");
+app.use("/contact", contact);
+
 
 app.listen(port, hostName, () => {
   console.log(`Server çalışıyor, http://${hostName}:${port}/`);
